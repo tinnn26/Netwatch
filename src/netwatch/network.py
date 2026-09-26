@@ -13,11 +13,16 @@ def discover_devices(network):
     devices = []
 
     for sent, received in answered:
-        devices.append({
-            "ip": received.psrc,
-            "mac": received.hwsrc
-        })
+            ip = received.psrc
+            mac = received.hwsrc
+            hostname = get_hostname(ip)
 
+            devices.append({
+                "ip": ip,
+                "mac": mac,
+                "hostaname": hostname
+            })
+    
     return devices
 
 def get_hostname(ip):

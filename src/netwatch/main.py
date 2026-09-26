@@ -1,6 +1,6 @@
 from rich.table import Table
 from rich.console import Console
-from network import discover_devices, get_hostname
+from network import discover_devices
 import socket
 
 def main():
@@ -20,7 +20,7 @@ def main():
         table.add_row(
             device["ip"],
             device["mac"],
-            get_hostname(device["ip"])
+            device["hostaname"]
         )
 
     console.print(table)
@@ -29,11 +29,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-def get_hostname(ip):
-    try:
-        hostname = socket.gethostbyaddr(ip)[0]
-        return hostname
-    except socket.herror:
-        return "Desconocido"
