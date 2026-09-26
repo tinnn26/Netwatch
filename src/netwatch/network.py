@@ -1,4 +1,5 @@
 from scapy.all import ARP, Ether, srp
+import socket
 
 
 def discover_devices(network):
@@ -18,4 +19,11 @@ def discover_devices(network):
         })
 
     return devices
+
+def get_hostname(ip):
+    try:
+        hostname = socket.gethostbyaddr(ip)[0]
+        return hostname
+    except socket.herror:
+        return "Desconocido"
 
