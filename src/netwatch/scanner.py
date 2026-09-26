@@ -1,5 +1,21 @@
 import socket
 
+COMMON_SERVICES = {
+    21: "FTP",
+    22: "SSH",
+    23: "TELNET",
+    25: "SMTP",
+    53: "DNS",
+    80: "HTTP",
+    110: "POP3",
+    139: "NETBIOS",
+    143: "IMAP",
+    443: "HTTPS",
+    445: "SMB",
+    3389: "RDP",
+    8080: "HTTP-ALT"
+}
+
 def scan_port(ip, port, timeout=0.5):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.settimeout(timeout)
@@ -17,6 +33,9 @@ def scan_ports(ip, ports):
             open_ports.append(port)
 
     return open_ports
+
+def get_service(port):
+    return COMMON_SERVICES.get(port, "Unknown")
 
 
 if __name__ == "__main__":

@@ -2,6 +2,14 @@ from scapy.all import ARP, Ether, srp
 import socket
 
 
+def get_hostname(ip):
+    try:
+        hostname = socket.gethostbyaddr(ip)[0]
+        return hostname
+    except socket.herror:
+        return "Desconocido"
+
+
 def discover_devices(network):
     arp_request = ARP(pdst=network)
     ethernet_frame = Ether(dst="ff:ff:ff:ff:ff:ff")
@@ -13,22 +21,14 @@ def discover_devices(network):
     devices = []
 
     for sent, received in answered:
-            ip = received.psrc
-            mac = received.hwsrc
-            hostname = get_hostname(ip)
+        ip = received.psrc
+        mac = received.hwsrc
+        hostname = get_hostname(ip)
 
-            devices.append({
-                "ip": ip,
-                "mac": mac,
-                "hostaname": hostname
-            })
-    
+        devices.append({
+            "ip": ip,
+            "mac": mac,
+            "hostname": hostname
+        })
+
     return devices
-
-def get_hostname(ip):
-    try:
-        hostname = socket.gethostbyaddr(ip)[0]
-        return hostname
-    except socket.herror:
-        return "Desconocido"
-
